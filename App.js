@@ -30,7 +30,29 @@ export default function App() {
   }, []);
 
 //CRUD Functions
+//Vicente
+  const loadData = async () => {
+    try {
+      const storedData = await AsyncStorage.getItem('@expenses');
+      if (storedData) setExpenses(JSON.parse(storedData));
+    } catch (e) {
+      Alert.alert("Error", "Failed to load data.");
+    }
+  };
 
+  const saveData = async (newData) => {
+    try {
+      await AsyncStorage.setItem('@expenses', JSON.stringify(newData));
+      setExpenses(newData);
+    } catch (e) {
+      Alert.alert("Error", "Failed to save data.");
+    }
+  };
+
+  const handleSave = () => {
+    if (!title || !amount) return Alert.alert("Required Fields", "Please fill out Title and Amount.");
+
+    if (editingId) {
   const resetForm = () => {
     setTitle('');
     setAmount('');
